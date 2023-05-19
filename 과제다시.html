@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #wrapper {
+            width: 300px;
+            height: 250px;
+            background: slategrey;
+            margin: auto;
+        }
+
+        #mask {
+            width: 100%;
+            height: 100%;
+            background: black;
+            position: relative;
+            /*
+            overflow: hidden; 
+            자식인 박스의 넘쳐나는 컨텐츠는 가리기
+            */
+        }
+    </style>
+    <script>
+        let y; // 이미지의 top값 변수... 
+        let x; // 이미지의 left값 변수...
+        let mask;
+        let box;
+        let key;
+        let a=0.1;
+        let targetX = 0;
+        let targetY = 0;
+
+        //방향키 오른쪽
+        function moveR() {
+            x = x + 300;
+            box.style.left = x + "px";
+        }
+        //방향키 왼쪽
+        function moveL() {
+            x = x - 300;
+            box.style.left = x + "px";
+        }
+
+        //방향키 위
+        function moveU() {
+            y = y - 250;
+            box.style.top = y + "px";
+        }
+        //방향키 아래
+        function moveD() {
+            y = y + 250;
+            box.style.top = y + "px";
+        }
+
+        //박스의 움직임을 감속도 운동으로 적용하기
+        function moving() {
+            box.style.left = parseFloat(box.style.left) + a * (targetX - parseFloat(box.style.left)) + "px";
+            box.style.top = parseFloat(box.style.top) + a * (targetY - parseFloat(box.style.top)) + "px";
+        }
+
+        //div와 그 안에 이미지 9개 생성
+        function init() {
+            //div 생성 <div></div> 
+            box = document.createElement("div");
+            box.style.width = 300 * 3 + "px";
+            box.style.height = 250 * 3 + "px";
+            box.style.position = "absolute";
+            box.style.left = 0 + "px";
+            box.style.top = 0 + "px";
+
+            for (let i = 0; i <= 8; i++) {
+                //이미지 9개 생성
+                let img = document.createElement("img");
+                img.src = "../images/m" + i + ".jpg";
+                img.style.position = "absolute";
+
+
+                //m.0, 3, 6.jpg 는 left값이 0
+                //m.1, 4, 7.jpg 는 left값이 300
+                //m.2, 5, 8.jpg 는 top값이 600
+                //어떤 변수?
+                img.style.left = 0 + "px";
+
+                //m.0~2.jpg 는 top값이 0
+                //m.3~5.jpg 는 top값이 250
+                //m.6~8.jpg 는 top값이 500
+                img.style.top = y + "px";
+                if (i <= 2) {
+                    y = 0
+                } else if (i >= 3 && i <= 5) {
+                    y = 250
+                } else if (i >= 6 && i <= 8) {
+                    y = 500
+                }
+
+                //이미지를 box(위에 생성한 div)의 자식으로 추가
+                box.appendChild(img);
+            }
+
+            //div 박스를 바디의 mask에 추가
+            mask = document.getElementById("mask");
+            mask.appendChild(box);
+
+        }
+
+        //문서가 로드되면
+        addEventListener("load", function () {
+            init();
+            //이상함..setInterval("moving()", 10);
+
+            //마스크에 키보드 이벤트 연결
+            mask.addEventListener("keydown", function () {
+                key = event.keyCode;
+                console.log("님이 누른 키값은", key);
+
+                switch (key) {
+                    case 37: moveL(); break;
+                    case 38: moveU(); break;
+                    case 39: moveR(); break;
+                    case 40: moveD(); break;
+                }
+            });
+        });
+
+    </script>
+</head>
+
+<body>
+    <div id="wrapper">
+
+        <div id="mask"></div>
+
+    </div>
+</body>
+
+</html>

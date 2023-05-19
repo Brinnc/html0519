@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>책갈피메뉴풀이</title>
+    <style>
+        body {
+            margin: 0px;
+        }
+
+        #box {
+            width: 200px;
+            height: 150px;
+            background: blue;
+            border-radius: 10px;
+            padding-top: 15px;
+        }
+        
+        #box ul{
+            font-size: 18px;
+            color: aliceblue;
+            font-weight: bold;
+
+        }
+
+        #box ul li:hover{
+            background: black;
+            
+        }
+    </style>
+    <script>
+        let box; //프로그램 가동되는 동안 모든 함수에서 접근가능
+        let a = 0.1;
+        let targetX=-170; //초기값을 조정
+
+        //사각형의 위치에 변화를 주기위한 함수
+        //박스위치=박스위치+비율계수a*(목표지점-현재박스위치)
+        function move() {
+
+            box.style.left = parseFloat(box.style.left) + a * (targetX - parseFloat(box.style.left)) + "px";
+        }
+
+        //파란 사각형 박스의 초기화
+        function init() {
+            box = document.getElementById("box");
+            box.style.position = "relative";
+            box.style.left = -170 + "px";
+        }
+
+        window.addEventListener("load", function () {
+            init();
+            //move함수를 끊임없이 호출할 루프
+            setInterval("move()",10);
+
+            //사각형 박스에 대한 마우스 이벤트 연결
+            box.addEventListener("mouseover", function () {
+                //모두 노출
+                targetX=0;
+                
+            });
+            box.addEventListener("mouseout", function () {
+                //다시 숨기
+                targetX=-170;
+                
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <!-- 
+        상대위치란? relative
+        다른 태그와의 관계에서 지정된 현재 본연의 위치. (0,0)
+    -->
+    <div id="box">
+        <ul>
+            <li>HOME</li>
+            <li>ABOUT</li>
+            <li>PRODUCT</li>
+            <li>CONTACT</li>
+            
+        </ul>
+    </div>
+</body>
+
+</html>

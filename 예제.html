@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /*가로 100 세로 40 마우스올리면 위아래로 부드럽게*/
+        body {
+            margin: 0px;
+            text-align: center;
+
+        }
+
+        #box {
+            width: 100px;
+            height: 300px;
+            background: red;
+            margin: auto;
+           
+        }
+    </style>
+    <script>
+        let box;
+        let a = 0.1;
+        let targetY = -250;  //초기값
+
+        //사각형의 위치에 변화를 주기위한 함수
+        //감속도 운동 공식: 박스위치=박스위치+비율계수a*(목표지점-현재박스위치)
+        function move() {
+            box.style.top = parseFloat(box.style.top) + a * (targetY - parseFloat(box.style.top)) + "px";
+        }
+ 
+        //초기화 함수
+        function init() {
+            box = document.getElementById("box");
+            box.style.position = "relative";
+            box.style.top = -250 + "px";
+        }
+
+        window.addEventListener("load", function () {
+            init();
+            
+            setInterval("move()",10);
+
+            //사각형 박스에 대한 마우스 이벤트 연결
+            box.addEventListener("mouseover", function () {
+                //모두 노출
+                targetY = 0;
+            });
+            box.addEventListener("mouseout", function () {
+                //다시 숨기
+                targetY = -250;
+            });
+        });
+        
+    </script>
+</head>
+
+<body>
+    <div id="box"></div>
+</body>
+
+</html>
